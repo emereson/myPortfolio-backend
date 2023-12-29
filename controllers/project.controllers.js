@@ -4,10 +4,12 @@ const { ref, uploadBytes, getDownloadURL } = require('firebase/storage');
 const { storage } = require('../utils/firebase');
 
 exports.findAll = catchAsync(async (req, res, next) => {
-  const projects = await Project.findAll();
+  const projects = await Project.findAll({
+    order: [['createdAt', 'DESC']], // Ordenar por la fecha de creación de forma descendente
+  });
 
   return res.status(200).json({
-    status: 'Succes',
+    status: 'Success',
     results: projects.length,
     projects,
   });
